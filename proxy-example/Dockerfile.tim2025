@@ -1,0 +1,15 @@
+ARG NOTEBOOK_VERSION=latest
+FROM jupyter/base-notebook:$NOTEBOOK_VERSION
+RUN mamba install -c conda-forge -c ome --yes --quiet \
+	bioformats2raw \
+	napari-ome-zarr \
+	omero-py \
+	zarr
+
+# RUN pip install napari-flim-phasor-plotter
+# RUN mamba install -c conda-forge -c ome -c euro-bioimaging --yes --quiet \
+# 	eubi-bridge \
+#	micro_sam \
+
+# Be sure to build and tag the image with:
+# docker build -t tim2025 -f Dockerfile.tim2025 .
