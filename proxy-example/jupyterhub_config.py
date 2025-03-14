@@ -81,3 +81,14 @@ for line in fileinput.input("passwd"):
 c.JupyterHub.authenticator_class = DictionaryAuthenticator
 c.Authenticator.admin_users = ["moorejo", "boissoto"]
 c.Authenticator.allow_all = True
+
+# Not working
+c.CondaKernelSpecManager.name_format = "{language} [{environment}]"
+
+
+# shutdown the server after no activity for an hour
+# c.ServerApp.shutdown_no_activity_timeout = 60 * 60
+# shutdown kernels after no activity for 20 minutes
+c.MappingKernelManager.cull_idle_timeout = 20 * 60
+# check for idle kernels every two minutes
+c.MappingKernelManager.cull_interval = 2 * 60

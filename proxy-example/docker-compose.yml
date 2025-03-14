@@ -14,6 +14,7 @@ services:
       - jupyterhub-network
     volumes:
       # The JupyterHub configuration file
+      - "./jupyterlab.json:/opt/conda/etc/jupyter/jupyter_server_config.d/jupyterlab.json:ro"
       - "./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro"
       - "./passwd:/srv/jupyterhub/passwd:ro"
       # Bind Docker socket on the host so we can connect to the daemon from

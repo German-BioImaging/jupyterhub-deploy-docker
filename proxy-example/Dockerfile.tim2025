@@ -1,15 +1,24 @@
 ARG NOTEBOOK_VERSION=latest
 FROM jupyter/base-notebook:$NOTEBOOK_VERSION
-RUN mamba install -c conda-forge -c ome --yes --quiet \
+
+# Per environment
+RUN mamba create -n ome -c conda-forge -c ome --yes --quiet \
 	bioformats2raw \
 	napari-ome-zarr \
 	omero-py \
 	zarr
+# TODO: include above
+RUN mamba install -n ome ipykernel --yes --quiet
 
-# RUN pip install napari-flim-phasor-plotter
-# RUN mamba install -c conda-forge -c ome -c euro-bioimaging --yes --quiet \
-# 	eubi-bridge \
-#	micro_sam \
+RUN mamba create -n sam -c conda-forge --yes --quiet \
+	micro_sam \
+	ipykernel
+
+# Once
+COPY --chown=1000 nb_conda_kernels /tmp/nb_conda_kernels
+RUN mamba run pip install /tmp/nb_conda_kernels
+RUN mamba run python -m nb_conda_kernels.install --enable
+#RUN mamba install nb_conda_kernels
 
 # Be sure to build and tag the image with:
 # docker build -t tim2025 -f Dockerfile.tim2025 .
