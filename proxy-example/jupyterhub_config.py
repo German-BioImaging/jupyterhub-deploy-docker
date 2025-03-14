@@ -30,7 +30,15 @@ c.DockerSpawner.notebook_dir = notebook_dir
 
 # Mount the real user's Docker volume on the host to the notebook user's
 # notebook directory in the container
-c.DockerSpawner.volumes = {"jupyterhub-user-{username}": notebook_dir}
+c.DockerSpawner.volumes = {
+        "jupyterhub-user-{username}": notebook_dir,
+        "/mnt/jupyter-data/{username}": "/home/jovyan/work/hive2-jupyter-data/{username}",
+}
+
+c.DockerSpawner.read_only_volumes = {
+        "/mnt/jupyter-data/": "/home/jovyan/work/hive2-jupyter-data",
+        "/mnt/tim-data/": "/home/jovyan/work/hive1-tim-data",
+}
 
 # Remove containers once they are stopped
 c.DockerSpawner.remove = True
