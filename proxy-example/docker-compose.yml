@@ -15,6 +15,7 @@ services:
     volumes:
       # The JupyterHub configuration file
       - "./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro"
+      - "./passwd:/srv/jupyterhub/passwd:ro"
       # Bind Docker socket on the host so we can connect to the daemon from
       # within the container
       - "/var/run/docker.sock:/var/run/docker.sock:rw"

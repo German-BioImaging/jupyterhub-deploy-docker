@@ -54,17 +54,30 @@ c.JupyterHub.hub_port = 8080
 c.JupyterHub.cookie_secret_file = "/data/jupyterhub_cookie_secret"
 c.JupyterHub.db_url = "sqlite:////data/jupyterhub.sqlite"
 
-# Authenticate users with Native Authenticator
-c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
-#c.JupyterHub.authenticator_class = "native"
+from secrets import compare_digest
+from traitlets import Dict
+from jupyterhub.auth import Authenticator
 
-# Allow all signed-up users to login
+
+class DictionaryAuthenticator(Authenticator):
+
+    passwords = {}
+
+    async def authenticate(self, handler, data):
+        username = data["username"]
+        password = data["password"]
+        check_password = self.passwords.get(username, "")
+        # always call compare_digest, for timing attacks
+        if compare_digest(check_password, password) and username in self.passwords:
+            return username
+        else:
+            return None
+
+import fileinput
+for line in fileinput.input("passwd"):
+    a, b, *ignore = line.split("\t")
+    DictionaryAuthenticator.passwords[a] = b
+
+c.JupyterHub.authenticator_class = DictionaryAuthenticator
+c.Authenticator.admin_users = ["moorejo", "boissoto"]
 c.Authenticator.allow_all = True
-
-# Allow anyone to sign-up without approval
-c.NativeAuthenticator.open_signup = True
-
-# Allowed admins
-admin = os.environ.get("JUPYTERHUB_ADMIN")
-if admin:
-    c.Authenticator.admin_users = [admin]
