@@ -9,13 +9,13 @@ RUN mamba run pip install /tmp/nb_conda_kernels
 RUN mamba run python -m nb_conda_kernels.install --enable
 
 # One of these per environment (ipykernel is critical!)
-RUN mamba create -n ome -c conda-forge -c ome --yes --quiet \
+RUN mamba create -n OME -c conda-forge -c ome --yes --quiet \
 	bioformats2raw \
 	ipykernel \
 	napari-ome-zarr \
 	omero-py \
 	zarr
-RUN mamba run -n ome pip install ezomero 
+RUN mamba run -n OME pip install ezomero 
 
 RUN mamba create -n EuBI -c euro-bioimaging --yes --quiet \
 	eubi-bridge \
