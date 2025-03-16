@@ -17,8 +17,8 @@ RUN mamba create -n ome -c conda-forge -c ome --yes --quiet \
 	zarr
 RUN mamba run -n ome pip install ezomero 
 
-RUN mamba create -n sam -c conda-forge --yes --quiet \
-	micro_sam \
+RUN mamba create -n EuBI -c euro-bioimaging --yes --quiet \
+	eubi-bridge \
 	ipykernel
 
 # Be sure to build and tag the image with:
