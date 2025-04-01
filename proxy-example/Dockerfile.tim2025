@@ -13,9 +13,12 @@ RUN mamba create -n OME -c conda-forge -c ome --yes --quiet \
 	bioformats2raw \
 	ipykernel \
 	napari-ome-zarr \
+	ome-types \
+	omero-rois \
 	omero-py \
+	pandas \
 	zarr
-RUN mamba run -n OME pip install ezomero 
+RUN mamba run -n OME pip install ezomero omero2pandas omero-cli-duplicate omero-metadata
 
 RUN mamba create -n EuBI -c euro-bioimaging --yes --quiet \
 	eubi-bridge \
