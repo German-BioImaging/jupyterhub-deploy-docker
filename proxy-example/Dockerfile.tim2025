@@ -2,10 +2,11 @@ ARG NOTEBOOK_VERSION=latest
 FROM jupyter/base-notebook:$NOTEBOOK_VERSION
 
 # Once for the base installation
-# RUN mamba install nb_conda_kernels
+RUN mamba install nb_conda_kernels
 # The following is a workaround to fix the formatting of the kernel names
-COPY --chown=1000 nb_conda_kernels /tmp/nb_conda_kernels
-RUN mamba run pip install /tmp/nb_conda_kernels
+# in the file: nb_conda_kernels/manager.py (approx line 92 where `name_format` is set)
+#   COPY --chown=1000 nb_conda_kernels /tmp/nb_conda_kernels
+#   RUN mamba run pip install /tmp/nb_conda_kernels
 RUN mamba run python -m nb_conda_kernels.install --enable
 
 # One of these per environment (ipykernel is critical!)
